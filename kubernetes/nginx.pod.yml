@@ -2,6 +2,9 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: gocd-nginx
+  labels:
+    app: gocd-nginx
+    tier: ci
 spec:
   replicas: 1
   minReadySeconds: 30
@@ -14,6 +17,7 @@ spec:
     metadata:
       labels:
         app: gocd-nginx
+        tier: ci
     spec:
       securityContext:
         fsGroup: 999
