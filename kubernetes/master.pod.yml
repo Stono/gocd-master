@@ -39,11 +39,11 @@ spec:
       volumes:
       - name: gocd-master
         gcePersistentDisk:
-          pdName: gocd-master
+          pdName: {{ENV.TF_VAR_stack_name}}-gocd-master
           fsType: ext4
       - name: gocd-master-config
         gcePersistentDisk:
-          pdName: gocd-master-config
+          pdName: {{ENV.TF_VAR_stack_name}}-gocd-master-config
           fsType: ext4
       - name: gocd-logs
         emptyDir: {}
@@ -62,7 +62,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: gocd.goagent-key
-              key: password.txt
+              key: key
         - name: MSG_TIME
           value: '0'
         volumeMounts:

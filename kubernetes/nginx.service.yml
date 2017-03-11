@@ -6,7 +6,7 @@ metadata:
     app: gocd-nginx
 spec:
   type: LoadBalancer
-  loadBalancerIP: 35.187.69.212 
+  loadBalancerIP: {{ENV.GOCD_MASTER_IP}} 
   ports:
   - port: 80
     name: http
