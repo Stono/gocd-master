@@ -25,9 +25,9 @@ chown -R go:go /var/go
 echo Linking users file
 ln -sf /etc/go-files/users /etc/go-users
 
-echo Fixing log problem
 # Fix bug with logs, see https://github.com/gocd/gocd/issues/3246
-RUN ln -sf /var/log/go-server/go-server.out.log /var/log/go-server/go-server.log
+echo Fixing log problem
+ln -sf /var/log/go-server/go-server.out.log /var/log/go-server/go-server.log
 
 echo Starting go...
 /sbin/my_init
