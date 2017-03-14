@@ -8,7 +8,7 @@ if [ -f "/etc/gocd-ssh/ssh-privatekey" ]; then
   mkdir -p /var/go/.ssh
   cp /etc/gocd-ssh/ssh-privatekey /var/go/.ssh/id_rsa
   cp /etc/gocd-ssh/ssh-publickey /var/go/.ssh/id_rsa.pub
-  echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> /var/go/.ssh/config
+  echo -e "Host *\n\tStrictHostKeyChecking no\n" >> /var/go/.ssh/config
   chmod 0700 /var/go/.ssh
   chmod 0600 /var/go/.ssh/id_rsa
   chmod 0600 /var/go/.ssh/config
