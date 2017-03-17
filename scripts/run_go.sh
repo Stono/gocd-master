@@ -26,7 +26,7 @@ if [ ! "$GOCD_PASSWORD" = "" ]; then
   echo Configuring password for notifier...
   # Remove line breaks... stupid kubernetes
   GOCD_PASSWORD=$(echo $GOCD_PASSWORD | xargs)
-  sed -i 's/PASSWORDHERE/'${GOCD_PASSWORD}'/g' /etc/go_notify.conf
+  sed -i 's/PASSWORDHERE/'${GOCD_PASSWORD}'/g' $GO_NOTIFY_CONF
 else
   echo WARNING: You havent specified GOCD_PASSWORD so slack notifications wont work!
 fi
