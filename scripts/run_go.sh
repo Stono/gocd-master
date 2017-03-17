@@ -15,6 +15,23 @@ if [ -f "/etc/gocd-ssh/ssh-privatekey" ]; then
   chmod 0644 /var/go/.ssh/id_rsa.pub
 fi
 
+SLACK_VERSION="1.4.0-RC10"
+if [ ! -f "$PLUGIN_DIR/gocd-slack-notifier-$SLACK_VERSION.jar" ]; then
+  echo Downloading gocd-slack-notifier plugin...
+  cd $PLUGIN_DIR
+  curl -L -q -O https://github.com/ashwanthkumar/gocd-slack-build-notifier/releases/download/v$SLACK_VERSION/gocd-slack-notifier-$SLACK_VERSION.jar >/dev/null 2>&1
+fi
+
+if [ ! "$GOCD_PASSWORD" = "" ]; then
+  echo Configuring password for notifier...
+  # Remove line breaks... stupid kubernetes
+  GOCD_PASSWORD=$(echo $GOCD_PASSWORD | xargs)
+  sed -i 's/PASSWORDHERE/'${GOCD_PASSWORD}'/g' /etc/go_notify.conf
+else
+  echo WARNING: You havent specified GOCD_PASSWORD so slack notifications wont work!
+fi
+
+
 echo Fixing Permissions
 chown -R go:go $PLUGIN_DIR
 chown -R go:go /etc/go
