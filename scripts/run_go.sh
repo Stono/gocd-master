@@ -15,8 +15,9 @@ if [ -f "/etc/gocd-ssh/ssh-privatekey" ]; then
   chmod 0644 /var/go/.ssh/id_rsa.pub
 fi
 
-SLACK_VERSION="1.4.0-RC10"
+SLACK_VERSION="1.4.0-RC11"
 if [ ! -f "$PLUGIN_DIR/gocd-slack-notifier-$SLACK_VERSION.jar" ]; then
+  rm -rf "$PLUGIN_DIR/gocd-slack-notifier-*" # delete any older versions
   echo Downloading gocd-slack-notifier plugin...
   cd $PLUGIN_DIR
   curl -L -q -O https://github.com/ashwanthkumar/gocd-slack-build-notifier/releases/download/v$SLACK_VERSION/gocd-slack-notifier-$SLACK_VERSION.jar >/dev/null 2>&1
