@@ -32,7 +32,6 @@ else
   echo WARNING: You havent specified GOCD_PASSWORD so slack notifications wont work!
 fi
 
-
 echo Fixing Permissions
 chown -R go:go $PLUGIN_DIR
 chown -R go:go /etc/go
@@ -40,12 +39,26 @@ chown -R go:go /var/log/go-server
 chown -R go:go /var/lib/go-server
 chown -R go:go /var/go
 
-echo Linking users file
-ln -sf /etc/go-files/users /etc/go-users
+if [ -f "/etc/go-files/users" ]; then
+  echo Linking users file
+  ln -sf /etc/go-files/users /etc/go-users
+fi
 
-# Fix bug with logs, see https://github.com/gocd/gocd/issues/3246
-echo Fixing log problem
-ln -sf /var/log/go-server/go-server.out.log /var/log/go-server/go-server.log
+function start() {
+  echo "Starting go..."
+  /bin/su - go -c /usr/share/go-server/server.sh
+  pid=$!
+  echo "Go started with pid: $pid"
+  touch /tmp/ready
+  tail -F /var/log/go-server/*
+}
 
-echo Starting go...
-/sbin/my_init
+function stop() {
+  echo "Stopping go..."
+  kill $pid
+  wait $pid
+  pkill tail
+}
+
+start
+trap shutdown TERM INT
